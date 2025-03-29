@@ -244,20 +244,22 @@ elif selected_page == "risk":
     st.markdown("<h1 style='color:#F3AFAF;text-align:center;'>Risk Assessment</h1>", unsafe_allow_html=True)
 
     # Load ML Model
-    pickle_in = open("random_forest_model.pkl", 'rb')
+    pickle_in = open("Classifierupdates.pkl", 'rb')
     classifier = pickle.load(pickle_in)
 
 
-    def predict_risk(weight, height, cycleri, cyclelength, weightgain, hairgrowth, skindark, hairloss, pimples):
-        prediction = classifier.predict([[weight, height,
+    def predict_risk(weight, height, cycleri, cyclelength, weightgain, hairgrowth, skindark, hairloss, pimples,exercise,fastfood):
+        prediction = classifier.predict([[ weight, height,
                                           1 if cycleri == "Yes" else 0,
                                           1 if weightgain == "Yes" else 0,
                                           cyclelength,
                                           1 if hairgrowth == "Yes" else 0,
                                           1 if skindark == "Yes" else 0,
                                           1 if hairloss == "Yes" else 0,
-                                          1 if pimples == "Yes" else 0
-                                          ]])
+                                          1 if pimples == "Yes" else 0,
+                                          1 if exercise == "Yes" else 0,
+                                          1 if fastfood == "Yes" else 0
+                                        ]])
         return "You are at risk of having PCOS" if prediction == [1] else "You are not at risk of having PCOS"
 
 
@@ -265,13 +267,15 @@ elif selected_page == "risk":
     weight = st.number_input("Enter weight in kg", min_value=0.00, value=0.00, step=0.01)
     height = st.number_input("Enter height in m", min_value=0.00, value=0.00, step=0.01)
     cycleri = st.selectbox("Do you have regular periods?", ["Yes", "No"])
-    cyclelength = st.number_input("Enter Cycle length", min_value=0, value=0)
-    weightgain = st.selectbox("Have you gained weight?", ["Yes", "No"])
+    cyclelength = st.number_input("Enter average days you have periods", min_value=0, value=0)
+    weightgain = st.selectbox("Have you gained a lot of weight suddenly?", ["Yes", "No"])
     hairgrowth = st.selectbox("Do you have increased hair growth?", ["Yes", "No"])
-    skindark = st.selectbox("Has your skin darkened?", ["Yes", "No"])
-    hairloss = st.selectbox("Do you have hair loss?", ["Yes", "No"])
-    pimples = st.selectbox("Do you have pimples?", ["Yes", "No"])
+    skindark = st.selectbox("Has your skin darkened(hyper-pigmentation)?", ["Yes", "No"])
+    hairloss = st.selectbox("Do you have excessive hair loss?", ["Yes", "No"])
+    pimples = st.selectbox("Do you have pimples/acne?", ["Yes", "No"])
+    exercise = st.selectbox("Do you exercise fairly regularly?", ["Yes", "No"])
+    fastfood = st.selectbox("Do you eat fast food regularly?", ["Yes", "No"])
 
     if st.button("Predict"):
-        result = predict_risk(weight, height, cycleri, cyclelength, weightgain, hairgrowth, skindark, hairloss, pimples)
+        result = predict_risk(weight, height, cycleri, cyclelength, weightgain, hairgrowth, skindark, hairloss, pimples,exercise,fastfood)
         st.success(result)
