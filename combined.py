@@ -265,7 +265,7 @@ elif selected_page == "risk":
 
     # Form Inputs
     weight = st.number_input("Enter weight in kg", min_value=0.00, value=0.00, step=0.01)
-    height = st.number_input("Enter height in m", min_value=0.00, value=0.00, step=0.01)
+    height = st.number_input("Enter height in cm", min_value=0.00, value=0.00, step=0.01)
     cycleri = st.selectbox("Do you have regular periods?", ["Yes", "No"])
     cyclelength = st.number_input("Enter average days you have periods", min_value=0, value=0)
     weightgain = st.selectbox("Have you gained a lot of weight suddenly?", ["Yes", "No"])
